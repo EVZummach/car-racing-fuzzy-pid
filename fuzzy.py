@@ -241,5 +241,3 @@ def steering_fuzzy(angle, distance, plot=0):
 
 def pid_fuzzy(angle, velocity, distance):
     return 0
-
-breaking_fuzzy(0, 0, 1)

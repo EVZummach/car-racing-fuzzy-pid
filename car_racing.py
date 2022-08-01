@@ -119,9 +119,9 @@ def get_info(image):
     return angle_diff, distance, vel
 
 def pid(error,previous_error, delta):
-    Kp = 0.05
-    Ki = 0.00
-    Kd = 0.00
+    Kp = 0.02
+    Ki = 0.04
+    Kd = 0.03
 
     steering = Kp * error + Ki * (error + previous_error)/delta + Kd * (error - previous_error)*delta
 
@@ -167,8 +167,8 @@ for _ in range(10000):
 
     if diff > start_delay:
         angle, distance, vel = get_info(observation)
-        steering = pid(distance, prev_dist, diff)#+pid_angle(angle, prev_angle, diff)
-        steering = pid_fuzzy([0.00, 0.1], [0, 0.00001], [0, 0.00001], distance, prev_dist, angle, prev_angle, vel, 1)
+        steering = pid_control(0.005, 0.04, 0.03, distance, prev_dist, 1)#+pid_control(0.00002, 0.01, 0.02, angle, prev_angle, 1)
+        #steering = pid_fuzzy([0.00, 0.1], [0, 0.00001], [0, 0.00001], distance, prev_dist, angle, prev_angle, vel, 1)
         #steering = steering_fuzzy(angle, distance, 0)
         #print(f'Angle:{angle:0.2f} Steering: {steering:.2f} Accel:{acceleration:.2f} Breaking:{breaking:.2f} Velocity:{vel} Distance:{distance}')
         breaking = breaking_fuzzy(angle, vel)
