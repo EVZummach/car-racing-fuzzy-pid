@@ -51,7 +51,7 @@ def velocity_fuzzy(velocity, plot=0):
 
     return [v_lvl_s, v_lvl_m, v_lvl_f]
 
-def distance_fuzzy(distance):
+def distance_fuzzy(distance, plot = 0):
     d = np.arange(-30, 30, 1)
 
     d_hhl = fuzz.trapmf(d, [-30, -25, -18, -10])
@@ -69,6 +69,19 @@ def distance_fuzzy(distance):
     d_lvl_r = fuzz.interp_membership(d, d_r, distance)
     d_lvl_hr = fuzz.interp_membership(d, d_hr, distance)
     d_lvl_hhr = fuzz.interp_membership(d, d_hhr, distance)
+
+    if plot:
+        plt.figure(figsize=(10, 5))
+        plt.plot(d, d_hhl, 'r', label='Excessivo Direita')
+        plt.plot(d, d_hl, 'g', label='Muito Direita')
+        plt.plot(d, d_l, 'b', label='Direita')
+        plt.plot(d, d_n, 'k', label='Reta')
+        plt.plot(d, d_r, 'c', label='Esquerda')
+        plt.plot(d, d_hr, 'm', label='Muito Esquerda')
+        plt.plot(d, d_hhr, 'b', label='Excessivo Esquerda')
+        plt.legend()
+        plt.title('Fuzzy Logic: Distance')
+        plt.show()
 
     return [d_lvl_hhl, d_lvl_hl, d_lvl_l, d_lvl_n, d_lvl_r, d_lvl_hr, d_lvl_hhr]
 
@@ -131,9 +144,10 @@ def breaking_fuzzy(angle, velocity, plot=0):
 
     if plot:
         plt.figure(figsize=(10, 5))
-        plt.plot(b, b_s, 'r', label='Small')
-        plt.plot(b, b_m, 'g', label='Medium')
-        plt.plot(b, b_m, 'b', label='High')
+        plt.plot(b, b_n, 'r', label='Não freia')
+        plt.plot(b, b_s, 'g', label='Freia Pouco')
+        plt.plot(b, b_m, 'b', label='Freia Médio')
+        plt.plot(b, b_h, 'c', label='Freia Excessivo')
         plt.legend()
         plt.title('Fuzzy Logic: Breaking')
         plt.show()
@@ -227,3 +241,5 @@ def steering_fuzzy(angle, distance, plot=0):
 
 def pid_fuzzy(angle, velocity, distance):
     return 0
+
+breaking_fuzzy(0, 0, 1)
